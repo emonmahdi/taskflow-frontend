@@ -63,7 +63,7 @@
 //           <div className="fixed inset-0 bg-black bg-opacity-50  flex items-center justify-center">
 //             <Login
 //               onSubmit={handleAuthSubmit}
-//               onSwithMode={() => navigate("/signup")}
+//               onSwitchMode={() => navigate("/signup")}
 //             />
 //           </div>
 //         }
@@ -74,7 +74,7 @@
 //           <div className="fixed inset-0 bg-black bg-opacity-50  flex items-center justify-center">
 //             <SignUp
 //               onSubmit={handleAuthSubmit}
-//               onSwithMode={() => navigate("/login")}
+//               onSwitchMode={() => navigate("/login")}
 //             />
 //           </div>
 //         }
@@ -122,12 +122,19 @@ function App() {
     navigate("/login", { replace: true });
   };
 
+  // ✅ DEFINE IT HERE
+  const onSwitchMode = (mode) => {
+    if (mode === "login") navigate("/login");
+    if (mode === "signup") navigate("/signup");
+  };
+
   return (
     <Outlet
       context={{
         currentUser,
         handleAuthSubmit,
         handleLogout,
+        onSwitchMode
       }}
     />
   );

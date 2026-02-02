@@ -134,7 +134,7 @@ const INITIAL_FORM = {
   password: "",
 };
 
-const Signup = ({ onSwithMode }) => {
+const Signup = ({ onSwitchMode }) => {
   const [formData, setFormData] = useState(INITIAL_FORM);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
