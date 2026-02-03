@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
-import { Eye, EyeOff, LogIn } from "lucide-react";
+import { Eye, EyeOff, LogIn, Mail, Lock } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import { INPUTWRAPPER, fields, BUTTON_CLASSES } from "../assets/dummy";
 import axios from "axios";
@@ -26,15 +27,29 @@ const Login = () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     if (token) {
-      async () => {
+      (async () => {
         try {
           const { data } = await axios.get(`${url}/api/user/me`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-        } catch (err) {}
-      };
+          if (data.success) {
+            handleAuthSubmit?.({
+              token,
+              userId,
+              ...data.user,
+            });
+
+            toast.success("Session restored Redirecting....");
+            navigate("/");
+          } else {
+            localStorage.clear();
+          }
+        } catch {
+          localStorage.clear();
+        }
+      })();
     }
-  }, []);
+  }, [navigate, handleAuthSubmit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +68,11 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("userId", data.user.id);
       setFormData(INITIAL_FORM);
-      onSubmit?.({ token: data.token, userId: data.user.id, ...data.user });
+      handleAuthSubmit?.({
+        token: data.token,
+        userId: data.user.id,
+        ...data.user,
+      });
       toast.success("Login Successfully Redirecting....");
       setTimeout(() => navigate("/"), 1000);
     } catch (err) {
@@ -69,6 +88,11 @@ const Login = () => {
     toast.dismiss();
     onSwitchMode();
   };
+
+  const fields = [
+    { name: "email", type: "email", placeholder: "Email", icon: Mail },
+    { name: "password", type: "password", placeholder: "Password", icon: Lock },
+  ];
 
   return (
     <div className="max-w-md bg-white w-full shadow-lg border border-purple-100 rounded-xl p-8">

@@ -10,6 +10,36 @@ const Layout = ({ onLogout, user }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // const fetchTasks = useCallback(async () => {
+  //   setLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) throw new Error("No auth token found");
+
+  //     const { data } = await axios.get("http://localhost:5000/api/tasks", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+
+  //     const arr = Array.isArray(data)
+  //       ? data
+  //       : Array.isArray(data?.tasks)
+  //         ? data?.tasks
+  //         : Array.isArray(data?.data)
+  //           ? data?.data
+  //           : [];
+
+  //     setTasks(arr);
+  //   } catch (err) {
+  //     console.log(err);
+  //     setError(err.message || "Could not load task");
+  //     if (err.response.status === 401) onLogout();
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // });
+
   const fetchTasks = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -25,20 +55,17 @@ const Layout = ({ onLogout, user }) => {
       const arr = Array.isArray(data)
         ? data
         : Array.isArray(data?.tasks)
-          ? data?.tasks
-          : Array.isArray(data?.data)
-            ? data?.data
-            : [];
+        ? data.tasks
+        : [];
 
       setTasks(arr);
     } catch (err) {
-      console.log(err);
-      setError(err.message || "Could not load task");
-      if (err.response.status === 401) onLogout();
+      if (err.response?.status === 401) onLogout();
+      setError(err.message);
     } finally {
       setLoading(false);
     }
-  });
+  }, [onLogout]); // ✅ VERY IMPORTANT
 
   useEffect(() => {
     fetchTasks();
@@ -49,21 +76,20 @@ const Layout = ({ onLogout, user }) => {
       (t) =>
         t.completed === true ||
         t.completed === 1 ||
-        (typeof t.completed === "string" &&
-          t.completed.toLowerCase() === "yes"),
+        (typeof t.completed === "string" && t.completed.toLowerCase() === "yes")
     ).length;
 
     const totalCount = tasks.length;
-    const pendingCounts = totalCount - completedTasks;
-    const completionPercentace = totalCount
+    const pendingCount = totalCount - completedTasks;
+    const completionPercentage = totalCount
       ? Math.round((completedTasks / totalCount) * 100)
       : 0;
 
     return {
       totalCount,
       completedTasks,
-      pendingCounts,
-      completionPercentace,
+      pendingCount,
+      completionPercentage,
     };
   }, [tasks]);
 
