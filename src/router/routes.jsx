@@ -5,6 +5,8 @@ import Login from "../components/Login";
 import SignUp from "../components/SignUp";
 import ProtectedLayout from "./ProtectedLayout";
 import Dashboard from "../Pages/Dashboard";
+import PendingPage from "../Pages/PendingPage";
+import CompletePage from "../Pages/CompletePage";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <Dashboard />,
+              },
+              {
+                path: "pending",
+                element: <PendingPage />,
+              },
+              {
+                path: "complete",
+                element: <CompletePage />,
               },
             ],
           },
