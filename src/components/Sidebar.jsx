@@ -47,9 +47,9 @@ const Sidebar = ({ user, tasks }) => {
           >
             <span className={LINK_CLASSES.icon}>{icon}</span>
             <span
-              className={`${
-                isMobile ? "block" : "hidden lg:block"
-              } ${LINK_CLASSES} ml-1`}
+              className={`${isMobile ? "block" : "hidden lg:block"} ${
+                LINK_CLASSES.text
+              } ml-1`}
             >
               {text}
             </span>

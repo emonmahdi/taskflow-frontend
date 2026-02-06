@@ -132,9 +132,10 @@ function App() {
     <Outlet
       context={{
         currentUser,
+        setCurrentUser,
         handleAuthSubmit,
         handleLogout,
-        onSwitchMode
+        onSwitchMode,
       }}
     />
   );
