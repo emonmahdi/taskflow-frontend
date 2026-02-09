@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   ADD_BUTTON,
+  EMPTY_STATE,
   FILTER_LABELS,
   FILTER_OPTIONS,
   FILTER_WRAPPER,
@@ -19,7 +20,11 @@ import {
   WRAPPER,
 } from "../assets/dummy";
 import { useOutletContext } from "react-router";
-import { HomeIcon, Plus, Filter } from "lucide-react";
+import { HomeIcon, Plus, Filter, CalendarIcon } from "lucide-react";
+import axios from "axios";
+import TaskModal from "../components/TaskModal";
+
+const API_BASE = "http://localhost:5000";
 
 const Dashboard = () => {
   const { tasks, refreshTasks } = useOutletContext();
@@ -76,6 +81,22 @@ const Dashboard = () => {
       }
     });
   }, [tasks, filter]);
+
+  // Task save
+  const handleTaskSave = useCallback(
+    async (taskData) => {
+      try {
+        if (taskData.id)
+          await axios.get(`${API_BASE}/${taskData.id}`, taskData);
+        refreshTasks();
+        setShowModal(false);
+        setSelectedTask(null);
+      } catch (err) {
+        console.error("Error saving tasks", err);
+      }
+    },
+    [refreshTasks]
+  );
 
   return (
     <div className={WRAPPER}>
@@ -171,7 +192,63 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
+        {/* TASK LIST */}
+        <div className="space-y-4">
+          {filteredTasks.length === 0 ? (
+            <div className={EMPTY_STATE.wrapper}>
+              <div className={EMPTY_STATE.iconWrapper}>
+                <CalendarIcon className="w-8 h-8 text-purple-500" />
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                No tasks found
+              </h3>
+
+              <p className="text-sm text-gray-500 mb-4">
+                {filter === "all"
+                  ? "Create your first task to get started"
+                  : "No tasks match this filter"}
+              </p>
+
+              <button
+                onClick={() => setShowModal(true)}
+                className={EMPTY_STATE.btn}
+              >
+                Add New Task
+              </button>
+            </div>
+          ) : (
+            filteredTasks.map((task) => (
+              <TaskItem
+                key={task.id || task._id}
+                task={task}
+                onRefresh={refreshTasks}
+                showCompleteCheckbox
+                onEdit={() => {
+                  setSelectedTask(task), setShowModal(true);
+                }}
+              />
+            ))
+          )}
+        </div>
+        {/* ADD TASKS DESKTOP */}
+        <div
+          onClick={() => setShowModal(true)}
+          className="hidden md:flex items-center justify-center p-4 border-2 border-dashed border-purple-200 rounded-xl hover:border-purple-400 hover:bg-purple-50/50 cursor-pointer transition-colors"
+        >
+          <Plus className="w-5 h-5 text-purple-500 mr-2" />
+          <span className="text-gray-600 font-medium">Add New Task</span>
+        </div>
       </div>
+      <TaskModal
+        isOpen={showModal || !!selectedTask}
+        onClose={() => {
+          setShowModal(false);
+          setSelectedTask(null);
+        }}
+        tasktoEdit={selectedTask}
+        onSave={handleTaskSave}
+      />
     </div>
   );
 };
