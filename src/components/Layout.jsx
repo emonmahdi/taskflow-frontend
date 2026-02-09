@@ -2,43 +2,20 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import axios from "axios";
-import { Outlet } from "react-router";
+import { Outlet, useOutletContext } from "react-router";
 import { Zap, TrendingUp, Circle, Clock } from "lucide-react";
 
-const Layout = ({ onLogout, user }) => {
+const Layout = () => {
+  const { currentUser, handleLogout } = useOutletContext();
+
+  const user = currentUser;
+  const onLogout = handleLogout;
+
+  console.log("User Data", user);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  // const fetchTasks = useCallback(async () => {
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     if (!token) throw new Error("No auth token found");
-
-  //     const { data } = await axios.get("http://localhost:5000/api/tasks", {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-
-  //     const arr = Array.isArray(data)
-  //       ? data
-  //       : Array.isArray(data?.tasks)
-  //         ? data?.tasks
-  //         : Array.isArray(data?.data)
-  //           ? data?.data
-  //           : [];
-
-  //     setTasks(arr);
-  //   } catch (err) {
-  //     console.log(err);
-  //     setError(err.message || "Could not load task");
-  //     if (err.response.status === 401) onLogout();
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // });
+  console.log("User Data", user);
 
   const fetchTasks = useCallback(async () => {
     setLoading(true);

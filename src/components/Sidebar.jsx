@@ -12,6 +12,7 @@ import { Sparkles, Lightbulb, Menu, X } from "lucide-react";
 const Sidebar = ({ user, tasks }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  console.log("User", user);
 
   const totalTasks = tasks.length || 0;
   const completedTasks = tasks.filter((t) => t.completedT).length || 0;
