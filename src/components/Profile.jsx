@@ -17,7 +17,7 @@ const API_URL = "http://localhost:5000";
 
 const Profile = () => {
   const { currentUser, setCurrentUser, handleLogout } = useOutletContext();
-  console.log("User Data Profile", currentUser?.name);
+  console.log("User Data Profile", currentUser);
   const [profile, setProfile] = useState({ name: "", email: "" });
   const [passwords, setPasswords] = useState({
     current: "",
