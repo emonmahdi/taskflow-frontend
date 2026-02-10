@@ -23,6 +23,7 @@ import { useOutletContext } from "react-router";
 import { HomeIcon, Plus, Filter, CalendarIcon } from "lucide-react";
 import axios from "axios";
 import TaskModal from "../components/TaskModal";
+import TaskItem from "../components/TaskItem";
 
 const API_BASE = "http://localhost:5000";
 
@@ -246,7 +247,7 @@ const Dashboard = () => {
           setShowModal(false);
           setSelectedTask(null);
         }}
-        tasktoEdit={selectedTask}
+        taskToEdit={selectedTask}
         onSave={handleTaskSave}
       />
     </div>
