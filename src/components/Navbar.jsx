@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+/* eslint-disable no-undef */
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Zap, Settings, ChevronDown, LogOut } from "lucide-react";
 
@@ -7,6 +8,20 @@ const Navbar = ({ user = {}, onLogOut }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleMenuOpen = () => {
     setMenuOpen((prev) => !prev);
@@ -75,7 +90,9 @@ const Navbar = ({ user = {}, onLogOut }) => {
                   {user.email}
                 </p>
                 <ChevronDown
-                  className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${menuOpen ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${
+                    menuOpen ? "rotate-180" : ""
+                  }`}
                 />
               </div>
             </button>
