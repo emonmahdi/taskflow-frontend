@@ -40,8 +40,9 @@ const Dashboard = () => {
       lowPriority: tasks.filter((t) => t.priority?.toLowerCase() === "low")
         .length,
 
-      midPriority: tasks.filter((t) => t.priority?.toLowerCase() === "medium")
-        .length,
+      midPriority: tasks.filter(
+        (t) => t.priority?.trim()?.toLowerCase() === "medium"
+      ).length,
 
       highPriority: tasks.filter((t) => t.priority?.toLowerCase() === "high")
         .length,
@@ -143,12 +144,13 @@ const Dashboard = () => {
                   <p
                     className={`${VALUE_CLASS} ${
                       gradient
-                        ? "bg-gradiant-to-r from-fuchsia-500 to-purple-600 bg-clip-text text-transparent text-black"
+                        ? "bg-gradient-to-r from-fuchsia-500 to-purple-600 bg-clip-text text-transparent"
                         : textColor
                     }`}
                   >
                     {stats[valueKey]}
                   </p>
+
                   <p className={LABEL_CLASS}>{label}</p>
                 </div>
               </div>

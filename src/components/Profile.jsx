@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -26,26 +28,35 @@ const Profile = () => {
   });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) return;
 
-    axios
-      .get("/api/user/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(({ data }) => {
-        if (data.success) {
-          setProfile({
-            name: data?.user?.name,
-            email: data?.user?.email,
-          });
-        } else {
-          toast.error(data.message);
-        }
-      })
-      .catch(() => toast.error("UNABLE TO LOAD PROFILE."));
-  }, []);
+  //   axios
+  //     .get("/api/user/me", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     })
+  //     .then(({ data }) => {
+  //       if (data.success) {
+  //         setProfile({
+  //           name: data?.currentUser?.name,
+  //           email: data?.currentUser?.email,
+  //         });
+  //       } else {
+  //         toast.error(data.message);
+  //       }
+  //     })
+  //     .catch(() => toast.error("UNABLE TO LOAD PROFILE."));
+  // }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      setProfile({
+        name: currentUser?.name || "",
+        email: currentUser?.email || "",
+      });
+    }
+  }, [currentUser]);
 
   const saveProfile = async (e) => {
     e.preventDefault();
@@ -138,7 +149,7 @@ const Profile = () => {
                   <input
                     type={type}
                     placeholder={placeholder}
-                    value={profile[name]}
+                    value={profile?.[name] ?? currentUser?.[name] ?? ""}
                     onChange={(e) =>
                       setProfile({ ...profile, [name]: e.target.value })
                     }

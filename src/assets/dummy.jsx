@@ -235,7 +235,7 @@ export const STATS = [
     icon: Flame,
     iconColor: "bg-orange-100 text-orange-600",
     borderColor: "border-orange-100",
-    valueKey: "mediumPriority",
+    valueKey: "midPriority",
     textColor: "text-orange-600",
   },
   {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import { UserPlus } from "lucide-react";
 // import React, { useState } from "react";
 // import {
@@ -125,6 +126,7 @@ import {
   MESSAGE_ERROR,
 } from "../assets/dummy";
 import axios from "axios";
+import { Link, useOutletContext } from "react-router";
 
 const API_URL = "http://localhost:5000";
 
@@ -134,7 +136,8 @@ const INITIAL_FORM = {
   password: "",
 };
 
-const Signup = ({ onSwitchMode }) => {
+const Signup = () => {
+  const { onSwitchMode } = useOutletContext();
   const [formData, setFormData] = useState(INITIAL_FORM);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
@@ -147,7 +150,7 @@ const Signup = ({ onSwitchMode }) => {
     try {
       const response = await axios.post(
         `${API_URL}/api/user/register`,
-        formData,
+        formData
       );
 
       const data = response.data;
@@ -218,12 +221,14 @@ const Signup = ({ onSwitchMode }) => {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Already have an account?{" "}
-          <button
-            onClick={onSwithMode}
-            className="text-purple-600 hover:underline font-medium"
-          >
-            Login
-          </button>
+          <Link to={"/login"}>
+            <button
+              onClick={onSwitchMode}
+              className="text-purple-600 hover:underline font-medium"
+            >
+              Login
+            </button>
+          </Link>
         </p>
       </div>
     </div>
