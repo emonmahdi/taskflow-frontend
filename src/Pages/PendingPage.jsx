@@ -1,6 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { useOutletContext } from "react-router";
-import { layoutClasses, SORT_OPTIONS } from "../assets/dummy";
+import {
+  ADD_BUTTON,
+  EMPTY_STATE,
+  layoutClasses,
+  SORT_OPTIONS,
+} from "../assets/dummy";
 import { ListChecks, Filter, Plus, Clock } from "lucide-react";
 import TaskItem from "../components/TaskItem";
 import TaskModal from "../components/TaskModal";
@@ -81,13 +86,13 @@ const PendingPage = () => {
           <Plus className="text-purple-500" size={18} />
         </div>
 
-        <span className="font-medium">Add New Task</span>
+        <span className={`${EMPTY_STATE.btn}`}>Add New Task</span>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-4 mt-8">
         {sortedPendingTasks.length === 0 ? (
-          <div className="layoutClasses.emptyState">
+          <div className={layoutClasses.emptyState}>
             <div className="max-w-xs mx-auto py-6">
-              <div className="layoutClasses.emptyIconBg">
+              <div className={layoutClasses.emptyIconBg}>
                 <Clock className="w-8 h-8 text-purple-500" />
               </div>
 
@@ -112,15 +117,11 @@ const PendingPage = () => {
               key={task._id || task.id}
               task={task}
               showCompleteCheckbox
-              onDelete={() => handleDelete(task._id || task.id)}
-              onToggleComplete={() =>
-                handleToggleComplete(task._id || task.id, !task.completed)
-              }
               onEdit={() => {
                 setSelectedTask(task);
                 setShowModal(true);
               }}
-              refreshTasks={refreshTasks}
+              onRefresh={refreshTasks}
             />
           ))
         )}
