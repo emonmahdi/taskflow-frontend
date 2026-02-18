@@ -159,7 +159,7 @@ const TaskModal = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => {
               rows="3"
               onChange={handleChange}
               value={taskData.description}
-              className="baseControlClasses"
+              className={`${baseControlClasses}`}
               placeholder="Add details about your task"
             />
           </div>

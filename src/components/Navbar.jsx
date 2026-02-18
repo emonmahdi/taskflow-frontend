@@ -1,10 +1,11 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 import { Zap, Settings, ChevronDown, LogOut } from "lucide-react";
 
-const Navbar = ({ user = {}, onLogOut }) => {
-  const menuref = useRef(null);
+const Navbar = () => {
+  const { currentUser, setCurrentUser } = useOutletContext();
+  const menuRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -27,9 +28,11 @@ const Navbar = ({ user = {}, onLogOut }) => {
     setMenuOpen((prev) => !prev);
   };
 
-  const handleLogout = () => {
+  const handleLogoutProfile = () => {
     setMenuOpen(false);
-    onLogOut();
+    localStorage.removeItem("token");
+    setCurrentUser(null);
+    navigate("/login");
   };
 
   return (
@@ -63,31 +66,31 @@ const Navbar = ({ user = {}, onLogOut }) => {
             <Settings className="w-5 h-5" />
           </button>
           {/* User Dropdown */}
-          <div ref={menuref} className="relative">
+          <div ref={menuRef} className="relative">
             <button
               onClick={handleMenuOpen}
               className="flex items-center gap-2 px-3 py-2 rounded-full coursor-pointer hover:bg-purple-50 transition-colors duration-300 border border-transparent hover:border-purple-200"
             >
               <div className="relative">
-                {user.avatar ? (
+                {currentUser?.avatar ? (
                   <img
-                    src={user.avatar}
+                    src={currentUser?.avatar}
                     alt="avatar"
                     className="w-9 h-9 rounded-full shadow-sm"
                   />
                 ) : (
                   <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 via-purple-600 text-white font-semibold shadow-sm">
-                    {user.name?.[0]?.toUpperCase() || "U"}
+                    {currentUser?.name?.[0]?.toUpperCase() || "U"}
                   </div>
                 )}
                 <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
               </div>
               <div className="text-left hidden md:block">
                 <p className="font-medium text-sm text-gray-800 ">
-                  {user.name}
+                  {currentUser?.name}
                 </p>
                 <p className="text-sx text-gray-500 font-normal">
-                  {user.email}
+                  {currentUser?.email}
                 </p>
                 <ChevronDown
                   className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${
@@ -114,7 +117,7 @@ const Navbar = ({ user = {}, onLogOut }) => {
 
                 <li className="p-2">
                   <button
-                    onClick={handleLogout}
+                    onClick={handleLogoutProfile}
                     className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-red-50 text-red-600"
                   >
                     <LogOut className="w-4 h-4" />

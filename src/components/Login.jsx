@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router";
 import { Eye, EyeOff, LogIn, Mail, Lock } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
-import { INPUTWRAPPER, fields, BUTTON_CLASSES } from "../assets/dummy";
+import {
+  INPUTWRAPPER,
+  fields,
+  BUTTON_CLASSES,
+  Inputwrapper,
+} from "../assets/dummy";
 import axios from "axios";
 
 const url = "http://localhost:5000";
@@ -116,8 +121,8 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {fields.map(({ name, type, placeholder, icon: Icon, isPassword }) => (
-            <div key={name} className="input-wrapper">
-              <Icon className="text-purple-500 w-5 h-5" />
+            <div key={name} className={`${Inputwrapper}`}>
+              <Icon className="text-purple-500 w-5 h-5 mr-2" />
               <input
                 type={type}
                 placeholder={placeholder}
