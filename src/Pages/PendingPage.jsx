@@ -79,14 +79,11 @@ const PendingPage = () => {
         </div>
       </div>
       <div
-        className="group flex items-center justify-center gap-3 text-gray-500 hover:text-purple-600 transition-colors cursor-pointer"
         onClick={() => setShowModal(true)}
+        className="hidden md:flex items-center justify-center p-4 border-2 border-dashed border-purple-200 rounded-xl hover:border-purple-400 hover:bg-purple-50/50 cursor-pointer transition-colors"
       >
-        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200">
-          <Plus className="text-purple-500" size={18} />
-        </div>
-
-        <span className={`${EMPTY_STATE.btn}`}>Add New Task</span>
+        <Plus className="w-5 h-5 text-purple-500 mr-2" />
+        <span className="text-gray-600 font-medium">Add New Task</span>
       </div>
       <div className="space-y-4 mt-8">
         {sortedPendingTasks.length === 0 ? (
