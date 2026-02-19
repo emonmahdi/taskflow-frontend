@@ -11,7 +11,7 @@ import {
 } from "../assets/dummy";
 import axios from "axios";
 
-const url = "http://localhost:5000";
+const url = "https://taskflow-backend-xi.vercel.app";
 
 const INITIAL_FORM = {
   email: "",

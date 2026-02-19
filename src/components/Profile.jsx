@@ -15,7 +15,7 @@ import { ChevronLeft, UserCircle, Save, Shield, LogOut } from "lucide-react";
 import { useNavigate, useOutletContext } from "react-router";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://taskflow-backend-xi.vercel.app";
 
 const Profile = () => {
   const { currentUser, setCurrentUser, handleLogout } = useOutletContext();

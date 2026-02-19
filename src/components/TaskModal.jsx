@@ -14,7 +14,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-const API_BASE = "http://localhost:5000/api/tasks";
+const API_BASE = "https://taskflow-backend-xi.vercel.app/api/tasks";
 
 const TaskModal = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => {
   const [taskData, setTaskData] = useState(DEFAULT_TASK);

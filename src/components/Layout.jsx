@@ -24,9 +24,12 @@ const Layout = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No auth token found");
 
-      const { data } = await axios.get("http://localhost:5000/api/tasks", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.get(
+        "https://taskflow-backend-xi.vercel.app/api/tasks",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const arr = Array.isArray(data)
         ? data
