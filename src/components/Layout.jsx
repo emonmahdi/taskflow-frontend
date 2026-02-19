@@ -179,7 +179,7 @@ const Layout = () => {
                     <div className="flex-1 h-2 sm:h-3 bg-purple-100 rounded-full">
                       <div
                         className="h-full bg-gradient-to-r from-fuchsia-500 to-purple-600 transition-all  duration-500"
-                        style={{ width: `${stats.completionPercentace}%` }}
+                        style={{ width: `${stats?.completionPercentage}%` }}
                       ></div>
                     </div>
                   </div>

@@ -13,9 +13,10 @@ const Sidebar = ({ user, tasks }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   console.log("User", user);
+  console.log("tasks", tasks);
 
   const totalTasks = tasks.length || 0;
-  const completedTasks = tasks.filter((t) => t.completedT).length || 0;
+  const completedTasks = tasks.filter((t) => t.completed).length || 0;
 
   const productivity =
     totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
